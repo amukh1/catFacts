@@ -18,13 +18,30 @@
 }
     load() {
         const request = require("request");
+        function cat() {
         request("https://catfact.ninja/fact", function (error, response, body) {
             if (error) {
                 console.log(error);
             }else {
                 console.log(body);
-                BdApi.alert('Cat facts!', JSON.parse(body).fact, 'e', 'b')
-            }});
+                // BdApi.alert('Cat facts!', JSON.parse(body).fact)
+     
+BdApi.showConfirmationModal("Cat Facts!", 
+    [
+        JSON.parse(body).fact,
+    ],
+    {
+        danger: false,
+        confirmText: "Show more?",
+        cancelText: "No thanks!",
+        onConfirm: () => {
+            cat()
+        }
+    }
+)
+
+            }})};
+            cat()
         // let res = await fetch('https://catfact.ninja/fact?max_length=100')
         // let json = await res.json()
     } // Optional function. Called when the plugin is loaded in to memory
